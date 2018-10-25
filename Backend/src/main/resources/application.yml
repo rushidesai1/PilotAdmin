@@ -1,0 +1,17 @@
+spring:
+  h2.console.enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:h2:mem:pilotdb
+    #    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
+
+
+logging.level:
+  org.hibernate:
+    SQL: TRACE
+    type.descriptor.sql.BasicBinder: TRACE

@@ -1,0 +1,3 @@
+rootProject.name = 'PilotAdmin'
+include 'Backend'
+include 'Frontend'

@@ -25,3 +25,15 @@
 //.bordered-tab-contents > .nav-tabs {
 //  margin-bottom: 0;
 //}
+
+@function black($opacity) {
+  @return rgba(black, $opacity)
+}
+
+@function white($opacity) {
+  @return rgba(white, $opacity)
+}
+
+.half-black {
+  background: black(0.7);
+}

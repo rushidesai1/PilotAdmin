@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Renderer2} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,10 @@ export class AppComponent {
       exact: false
     }
   ];
+
+  constructor(private renderer: Renderer2) {
+    this.renderer.addClass(document.body, 'bg-light');
+  }
 }
 
 interface Nav {

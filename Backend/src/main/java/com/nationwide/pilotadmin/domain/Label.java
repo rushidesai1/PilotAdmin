@@ -1,15 +1,11 @@
 package com.nationwide.pilotadmin.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author rushidesai
@@ -17,23 +13,30 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @Entity
-@EqualsAndHashCode(of = {"id", "name"})
+//@EqualsAndHashCode(of = {"id", "name"})
 public class Label {
 
     @Column
     @Id
     @GeneratedValue
+    @NonNull
     private long id;
 
     @Column
     @NonNull
+//    @EqualsAndHashCode.Exclude
     private int level;
 
     @Column
     @NonNull
+    @EqualsAndHashCode.Exclude
     private String name;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private LabelMetadata labelMetadata;
 
+/*
     @JsonBackReference
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 //    @JoinTable(
@@ -41,7 +44,9 @@ public class Label {
 //            joinColumns = {@JoinColumn(name = "label_id")},
 //            inverseJoinColumns = {@JoinColumn(name = "pilot_id")}
 //    )
+    @EqualsAndHashCode.Exclude
     private Set<Node> nodes;
+*/
 
 //    @JsonBackReference
 //    @ManyToMany(cascade = {CascadeType.ALL})
@@ -52,12 +57,14 @@ public class Label {
 //    )
 //    private Set<Label> labels;
 
+/*
     public Set<Node> getNodes() {
         if (nodes == null) {
             nodes = new HashSet<>();
         }
         return nodes;
     }
+*/
 
     @Override
     public String toString() {
@@ -65,7 +72,7 @@ public class Label {
                 "id=" + id +
                 ", level=" + level +
                 ", name='" + name + '\'' +
-                ", nodes=" + nodes.stream().map(Node::getName).collect(Collectors.joining(", ")) +
+//                ", nodes=" + nodes.stream().map(Node::getName).collect(Collectors.joining(", ")) +
 //                ", labels=" + labels +
                 '}';
     }

@@ -1,11 +1,18 @@
-package service;
+package com.nationwide.pilotadmin.service;
 
+import com.nationwide.pilotadmin.domain.Label;
 import com.nationwide.pilotadmin.domain.Node;
+import com.nationwide.pilotadmin.dto.frontend.PilotFrontend;
+import com.nationwide.pilotadmin.dto.tree.TreeNode;
+import com.nationwide.pilotadmin.mappers.NodeMapper;
 import com.nationwide.pilotadmin.repository.PilotRepository;
-import dto.frontend.PilotDomain;
+import com.nationwide.pilotadmin.tree.TreeConstruct;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author rushidesai
@@ -16,7 +23,7 @@ public class PilotService {
     @Autowired
     private PilotRepository pilotRepository;
 
-    boolean addPilot(PilotDomain pilotDomain) {
+    boolean addPilot(PilotFrontend pilotDomain) {
 //        Node pilot1 = Node.builder().name("CARD_1").state(State.builder().isPilotOn(true).build()).build();
 //        Node pilot2 = Node.builder().name("CARD_2").state(State.builder().isPilotOn(true).build()).build();
 ////        Node pilot1 = Node.builder().name("CARD_1").state(State.builder().isPilotOn(true).build()).build();
@@ -42,7 +49,15 @@ public class PilotService {
 
     }
 
-    Node fetchPilot(Node node) {
-        return pilotRepository.findById(node.getId()).orElse(null);
+    List<TreeNode> fetchPilot(Set<Label> labels) {
+        List<Node> nodes = null;
+        if (labels != null && !labels.isEmpty()) {
+            nodes = pilotRepository.findAllByLabelsIn(labels);  //db query
+        }
+
+        List<TreeNode> treeNodes = NodeMapper.mapNodesToTreeNodes(nodes);
+
+        List<TreeNode> rootNodes = TreeConstruct.constructTree(treeNodes);
+        return treeNodes;
     }
 }

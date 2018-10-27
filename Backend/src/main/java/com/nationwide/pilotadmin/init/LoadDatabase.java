@@ -41,6 +41,7 @@ public class LoadDatabase {
             Label label1 = Label.builder().name("CARD_1").level(1).build();
             Label label2 = Label.builder().name("FEAT_1").level(2).build();
             Label label3 = Label.builder().name("PROJ_1").level(3).build();
+
             Label label4 = Label.builder().name("CARD_2").level(1).build();
             Label label5 = Label.builder().name("FEAT_2").level(2).build();
             Label label6 = Label.builder().name("PROJ_2").level(3).build();
@@ -51,6 +52,14 @@ public class LoadDatabase {
 
             label1.getNodes().add(node1);
             node1.getLabels().add(label1);
+            node1.getLabels().add(label2);
+            node1.getLabels().add(label3);
+            nodes.add(node1);
+
+            label1.getNodes().add(node1);   //attach node and label
+            node1.getLabels().add(label1);
+            node1.getLabels().add(label2);
+            node1.getLabels().add(label3);
             nodes.add(node1);
 //        nodes.add(node2);
 //        nodes.add(pilot3);

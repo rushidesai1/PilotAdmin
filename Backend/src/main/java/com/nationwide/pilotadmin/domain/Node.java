@@ -1,6 +1,5 @@
 package com.nationwide.pilotadmin.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @Builder
-@EqualsAndHashCode(of = {"id", "name"})
+//@EqualsAndHashCode(of = {"id", "name"})
 @Entity
 public class Node {
 
@@ -28,17 +27,30 @@ public class Node {
     private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private State state;
 
-    @JsonManagedReference
+    //    @JsonManagedReference
     @ManyToMany(mappedBy = "nodes", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Pilot_Label",
             joinColumns = {@JoinColumn(name = "pilot_id")},
             inverseJoinColumns = {@JoinColumn(name = "label_id")}
     )
+    @EqualsAndHashCode.Exclude
     private Set<Label> labels;
 
+//    @JsonManagedReference
+//    @ManyToMany(mappedBy = "nodes", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+//    @JoinTable(
+//            name = "Pilot_Label",
+//            joinColumns = {@JoinColumn(name = "pilot_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "label_id")}
+//    )
+//    @EqualsAndHashCode.Exclude
+//    private Set<Node> nodeChildren;
+//    @EqualsAndHashCode.Exclude
+//    private Set<Node> nodeParent;
 
 //    @JsonBackReference
 //    @ManyToMany(cascade = {CascadeType.ALL})
@@ -62,6 +74,7 @@ public class Node {
         return "Node{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+//                ", level='" + level + '\'' +
                 ", state=" + state +
                 ", labels=" + labels.stream().map(Label::getName).collect(Collectors.joining(", ")) +
                 '}';

@@ -31,12 +31,13 @@ public class Node {
     private State state;
 
     //    @JsonManagedReference
-    @ManyToMany(mappedBy = "nodes", fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinTable(
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER)
+    /*@JoinTable(
             name = "Pilot_Label",
             joinColumns = {@JoinColumn(name = "pilot_id")},
             inverseJoinColumns = {@JoinColumn(name = "label_id")}
-    )
+    )*/
     @EqualsAndHashCode.Exclude
     private Set<Label> labels;
 

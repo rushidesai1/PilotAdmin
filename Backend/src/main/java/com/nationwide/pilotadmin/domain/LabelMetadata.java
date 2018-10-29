@@ -1,5 +1,6 @@
 package com.nationwide.pilotadmin.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 /**
  * @author rushidesai
  */
+@Builder
 @Data
 @Entity
 public class LabelMetadata {

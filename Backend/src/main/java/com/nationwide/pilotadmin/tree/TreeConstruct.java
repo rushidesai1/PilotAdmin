@@ -16,6 +16,6 @@ public class TreeConstruct {
     public static List<TreeNode> constructTree(List<TreeNode> treeNodes) {
 
 
-        return null;
+        return treeNodes;
     }
 }

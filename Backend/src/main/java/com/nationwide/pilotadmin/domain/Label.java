@@ -20,16 +20,16 @@ public class Label {
     @Id
     @GeneratedValue
     @NonNull
+    @EqualsAndHashCode.Exclude
     private long id;
 
     @Column
     @NonNull
-//    @EqualsAndHashCode.Exclude
     private int level;
 
     @Column
     @NonNull
-    @EqualsAndHashCode.Exclude
+//    @EqualsAndHashCode.Exclude
     private String name;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -66,14 +66,14 @@ public class Label {
     }
 */
 
-    @Override
-    public String toString() {
-        return "Label{" +
-                "id=" + id +
-                ", level=" + level +
-                ", name='" + name + '\'' +
-//                ", nodes=" + nodes.stream().map(Node::getName).collect(Collectors.joining(", ")) +
-//                ", labels=" + labels +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Label{" +
+//                "id=" + id +
+//                ", level=" + level +
+//                ", name='" + name + '\'' +
+////                ", nodes=" + nodes.stream().map(Node::getName).collect(Collectors.joining(", ")) +
+////                ", labels=" + labels +
+//                '}';
+//    }
 }

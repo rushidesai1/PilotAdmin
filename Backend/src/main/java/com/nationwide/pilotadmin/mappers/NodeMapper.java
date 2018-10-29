@@ -4,11 +4,12 @@ import com.nationwide.pilotadmin.domain.Node;
 import com.nationwide.pilotadmin.dto.tree.TreeNode;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by desair4 on 10/26/2018.
+ * @author rushidesai
  */
 public class NodeMapper {
 
@@ -16,22 +17,42 @@ public class NodeMapper {
         throw new UnsupportedOperationException("This class shouldn't be instantiated");
     }
 
-    public static List<TreeNode> mapNodesToTreeNodes(final List<Node> nodes) {
-        if (nodes == null) return Collections.emptyList();
+    public static List<Node> mapTreeNodesToNodes(List<TreeNode> treeNodes) {
+        if (treeNodes == null) return Collections.emptyList();
 
-        return nodes.stream()
-                .map(NodeMapper::mapNodeToTreeNode)
+        return treeNodes.stream()
+                .map(NodeMapper::mapTreeNodeToNode)
                 .collect(Collectors.toList());
     }
 
-    public static TreeNode mapNodeToTreeNode(Node node) {
-        if (node == null) return null;
-
-        return TreeNode.builder()
-//                .level(node.getLevel())
-                .state(StateMapper.mapStateToStateFrontend(node.getState()))
-                .name(node.getName())
-                .labels(LabelMapper.mapLabelsToLabelFrontends(node.getLabels()))
+    public static Node mapTreeNodeToNode(TreeNode treeNode) {
+        if (treeNode == null) return null;
+        return Node.builder()
+                .state(StateMapper.mapStateFrontendToState(treeNode.getState()))
+                .name(treeNode.getName())
+                .labels(new HashSet<>(LabelMapper.mapLabelFrontendsToLabels(treeNode.getLabels())))
                 .build();
     }
+
+
+
+   /* public static List<Node> mapTreeNodesToNodes(List<TreeNode> treeNodes) {
+        if (treeNodes == null) return Collections.emptyList();
+
+        return treeNodes.stream()
+                .map(NodeMapper::mapTreeNodeToNode)
+                .collect(Collectors.toList());
+    }
+
+    public static Node mapTreeNodeToNode(TreeNode treeNode) {
+        if (treeNode == null) return null;
+
+        return Node.builder()
+                .name(treeNode.getName())
+                .state(St)
+                .build();
+
+    }*/
+
+
 }

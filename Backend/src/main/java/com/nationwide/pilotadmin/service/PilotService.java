@@ -1,18 +1,21 @@
 package com.nationwide.pilotadmin.service;
 
+import com.nationwide.pilotadmin.dao.PilotDao;
 import com.nationwide.pilotadmin.domain.Label;
 import com.nationwide.pilotadmin.domain.Node;
 import com.nationwide.pilotadmin.dto.frontend.PilotFrontend;
 import com.nationwide.pilotadmin.dto.tree.TreeNode;
-import com.nationwide.pilotadmin.mappers.NodeMapper;
-import com.nationwide.pilotadmin.repository.PilotRepository;
+import com.nationwide.pilotadmin.mappers.LabelMapper;
+import com.nationwide.pilotadmin.mappers.TreeNodeMapper;
 import com.nationwide.pilotadmin.tree.TreeConstruct;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * @author rushidesai
@@ -21,7 +24,7 @@ import java.util.Set;
 @Service
 public class PilotService {
     @Autowired
-    private PilotRepository pilotRepository;
+    private PilotDao pilotDao;
 
     boolean addPilot(PilotFrontend pilotDomain) {
 //        Node pilot1 = Node.builder().name("CARD_1").state(State.builder().isPilotOn(true).build()).build();
@@ -49,15 +52,28 @@ public class PilotService {
 
     }
 
-    List<TreeNode> fetchPilot(Set<Label> labels) {
-        List<Node> nodes = null;
-        if (labels != null && !labels.isEmpty()) {
-            nodes = pilotRepository.findAllByLabelsIn(labels);  //db query
-        }
+    public List<TreeNode> findAll() {
+        Iterable<Node> all = pilotDao.findAll();
+        List<Node> nodes = StreamSupport.stream(all.spliterator(), false)
+                .collect(Collectors.toList());
 
-        List<TreeNode> treeNodes = NodeMapper.mapNodesToTreeNodes(nodes);
+        List<TreeNode> treeNodes = TreeNodeMapper.mapNodesToTreeNodes(nodes);
+
+        return TreeConstruct.constructTree(treeNodes);
+    }
+
+    public List<TreeNode> fetchPilots(List<TreeNode> labelsTreeNode) {
+        if (labelsTreeNode == null) return Collections.emptyList();
+
+        List<Label> labels = LabelMapper.mapTreeNodesToLabels(labelsTreeNode);
+
+        List<Node> nodes = pilotDao.findAllByLabelsIn(labels);  //db query
+//        List<Node> nodes = pilotDao.findAllByLabel(labels.get(0));  //db query
+
+        List<TreeNode> treeNodes = TreeNodeMapper.mapNodesToTreeNodes(nodes);
 
         List<TreeNode> rootNodes = TreeConstruct.constructTree(treeNodes);
+
         return treeNodes;
     }
 }

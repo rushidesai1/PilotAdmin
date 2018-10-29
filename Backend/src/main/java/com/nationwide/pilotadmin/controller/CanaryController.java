@@ -1,13 +1,9 @@
 package com.nationwide.pilotadmin.controller;
 
-import com.nationwide.pilotadmin.domain.Label;
-import com.nationwide.pilotadmin.domain.Node;
 import com.nationwide.pilotadmin.repository.LabelRepository;
 import com.nationwide.pilotadmin.repository.PilotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -30,24 +26,9 @@ public class CanaryController {
         return Mono.just("Running");
     }
 
-    @GetMapping("/labels")
-    @ResponseBody
-    public Mono<Iterable<Label>> labels() {
-        Iterable<Label> labels = labelRepository.findAll();
-        return Mono.just(labels);
-    }
 
-    @GetMapping("/labels/{name}")
-    @ResponseBody
-    public Mono<Label> hello(@PathVariable("name") String name) {
-//        Label.LabelBuilder label = Label.builder().name(name);
-//        PageRequest pageRequest = PageRequest.of(1, 10);
-//        labelRepository.findAll(pageRequest);
-        Label label = labelRepository.findByName(name);
 
-        return Mono.just(label);
-    }
-
+/*
     @GetMapping("/pilots")
     @ResponseBody
     public Mono<Iterable<Node>> pilots() {
@@ -63,6 +44,7 @@ public class CanaryController {
         Node node = pilotRepository.findByName(pilotName);
         return Mono.just(node);
     }
+*/
 
 //    @PutMapping("/nodes/{pilotName}")
 //    @ResponseBody

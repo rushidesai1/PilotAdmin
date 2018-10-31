@@ -13,5 +13,7 @@ public interface LabelRepository extends PagingAndSortingRepository<Label, Long>
 
     List<Label> findAllByNameEquals(String name);
 
+    List<Label> findAllByNameIn(List<String> names);
+
     Label findByNameEquals(String name);
 }

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author rushidesai
@@ -27,10 +27,15 @@ public class LabelDao {
 
     @Transactional(readOnly = true)
     public List<Label> findLabelsByName(List<Label> labels) {
+
+        final List<String> labelsNames = labels.stream()
+                .map(Label::getName)
+                .collect(Collectors.toList());
 //        labelRepository.
-        ArrayList<Label> labels1 = new ArrayList<Label>();
-        labels1.add(labelRepository.findByName(labels.get(0).getName()));
-        return labels1;
+//        ArrayList<Label> labels1 = new ArrayList<Label>();
+        return labelRepository.findAllByNameIn(labelsNames);
+//        labels1.add(labelRepository.findByName(labels.get(0).getName()));
+//        return labels1;
 //        return null;
     }
 }

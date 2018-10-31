@@ -5,9 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author rushidesai
@@ -26,13 +24,13 @@ public class Node {
     @Column
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @EqualsAndHashCode.Exclude
     private State state;
 
     //    @JsonManagedReference
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "nodes")
     /*@JoinTable(
             name = "Pilot_Label",
             joinColumns = {@JoinColumn(name = "pilot_id")},
@@ -63,12 +61,12 @@ public class Node {
 //    private Set<Node> nodes;
 
 
-    public Set<Label> getLabels() {
-        if (labels == null) {
-            labels = new HashSet<>();
-        }
-        return labels;
-    }
+//    public Set<Label> getLabels() {
+//        if (labels == null) {
+//            labels = new HashSet<>();
+//        }
+//        return labels;
+//    }
 
     @Override
     public String toString() {
@@ -77,7 +75,7 @@ public class Node {
                 ", name='" + name + '\'' +
 //                ", level='" + level + '\'' +
                 ", state=" + state +
-                ", labels=" + labels.stream().map(Label::getName).collect(Collectors.joining(", ")) +
+//                ", labels=" + labels.stream().map(Label::getName).collect(Collectors.joining(", ")) +
                 '}';
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author rushidesai
@@ -23,7 +25,18 @@ public class PilotDao {
     @Transactional(readOnly = true)
     public List<Node> findAllByLabelsIn(List<Label> labels) {
         if (labels == null) return Collections.emptyList();
-        return pilotRepository.findAllByLabelsIn(labels);  //db query
+//        return pilotRepository.findAllByLabelsIn(labels);  //db query
+        return null;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Node> findAllByNodesIn(List<Node> nodes) {
+        if (nodes == null) return Collections.emptyList();
+
+        final Set<String> nodesNames = nodes.stream()
+                .map(Node::getName)
+                .collect(Collectors.toSet());
+        return pilotRepository.findAllByNameIn(nodesNames);  //db query
     }
 
     @Transactional(readOnly = true)
@@ -31,7 +44,8 @@ public class PilotDao {
         if (label == null) return Collections.emptyList();
 
 //        return pilotRepository.findAllByNameEquals(label.getName());  //db query
-        return pilotRepository.findAllByLabels(label);  //db query
+//        return pilotRepository.findAllByLabels(label);  //db query
+        return null;
     }
 
     @Transactional(readOnly = true)

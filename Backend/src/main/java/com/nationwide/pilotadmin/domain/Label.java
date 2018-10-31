@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author rushidesai
@@ -36,17 +38,16 @@ public class Label {
     @EqualsAndHashCode.Exclude
     private LabelMetadata labelMetadata;
 
-/*
-    @JsonBackReference
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "Pilot_Label",
-//            joinColumns = {@JoinColumn(name = "label_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "pilot_id")}
-//    )
+    //    @JsonBackReference
+//    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Node_Label",
+            joinColumns = {@JoinColumn(name = "label_id")},
+            inverseJoinColumns = {@JoinColumn(name = "node_id")}
+    )
     @EqualsAndHashCode.Exclude
     private Set<Node> nodes;
-*/
 
 //    @JsonBackReference
 //    @ManyToMany(cascade = {CascadeType.ALL})
@@ -57,14 +58,12 @@ public class Label {
 //    )
 //    private Set<Label> labels;
 
-/*
     public Set<Node> getNodes() {
         if (nodes == null) {
             nodes = new HashSet<>();
         }
         return nodes;
     }
-*/
 
 //    @Override
 //    public String toString() {

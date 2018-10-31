@@ -8,6 +8,7 @@ import com.nationwide.pilotadmin.dto.tree.TreeNode;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +28,7 @@ public class TreeNodeMapper {
                 .collect(Collectors.toList());
     }
 
+
     public static TreeNode mapNodeToTreeNode(Node node) {
         if (node == null) return null;
 
@@ -38,7 +40,34 @@ public class TreeNodeMapper {
                 .build();
     }
 
+    public static List<TreeNode> mapNodesNoLabelsToTreeNodes(final List<Node> nodes) {
+        if (nodes == null) return Collections.emptyList();
+
+        return nodes.stream()
+                .map(TreeNodeMapper::mapNodeNoLabelsToTreeNode)
+                .collect(Collectors.toList());
+    }
+
+    public static TreeNode mapNodeNoLabelsToTreeNode(Node node) {
+        if (node == null) return null;
+
+        return TreeNode.builder()
+//                .level(node.getLevel())
+                .state(StateFrontendMapper.mapStateToStateFrontend(node.getState()))
+                .name(node.getName())
+//                .labels(LabelFrontendMapper.mapLabelsToLabelFrontends(node.getLabels()))
+                .build();
+    }
+
     public static List<TreeNode> mapLabelsToTreeNodes(List<Label> labels) {
+        if (labels == null) return Collections.emptyList();
+
+        return labels.stream()
+                .map(TreeNodeMapper::mapLabelToTreeNode)
+                .collect(Collectors.toList());
+    }
+
+    public static List<TreeNode> mapLabelsSetToTreeNodes(Set<Label> labels) {
         if (labels == null) return Collections.emptyList();
 
         return labels.stream()

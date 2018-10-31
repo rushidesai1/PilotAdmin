@@ -4,7 +4,6 @@ import com.nationwide.pilotadmin.domain.Node;
 import com.nationwide.pilotadmin.dto.tree.TreeNode;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public class NodeMapper {
         return Node.builder()
                 .state(StateMapper.mapStateFrontendToState(treeNode.getState()))
                 .name(treeNode.getName())
-                .labels(new HashSet<>(LabelMapper.mapLabelFrontendsToLabels(treeNode.getLabels())))
+//                .labels(new HashSet<>(LabelMapper.mapLabelFrontendsToLabels(treeNode.getLabels())))
                 .build();
     }
 

@@ -1,11 +1,10 @@
 package com.nationwide.pilotadmin.service;
 
 import com.nationwide.pilotadmin.dao.PilotDao;
-import com.nationwide.pilotadmin.domain.Label;
 import com.nationwide.pilotadmin.domain.Node;
 import com.nationwide.pilotadmin.dto.frontend.PilotFrontend;
 import com.nationwide.pilotadmin.dto.tree.TreeNode;
-import com.nationwide.pilotadmin.mappers.LabelMapper;
+import com.nationwide.pilotadmin.mappers.NodeMapper;
 import com.nationwide.pilotadmin.mappers.TreeNodeMapper;
 import com.nationwide.pilotadmin.tree.TreeConstruct;
 import lombok.Data;
@@ -62,12 +61,13 @@ public class PilotService {
         return TreeConstruct.constructTree(treeNodes);
     }
 
-    public List<TreeNode> fetchPilots(List<TreeNode> labelsTreeNode) {
-        if (labelsTreeNode == null) return Collections.emptyList();
+    public List<TreeNode> fetchPilots(List<TreeNode> nodesTreeNode) {
+        if (nodesTreeNode == null) return Collections.emptyList();
 
-        List<Label> labels = LabelMapper.mapTreeNodesToLabels(labelsTreeNode);
+//        List<Label> labels = LabelMapper.mapTreeNodesToLabels(nodesTreeNode);
+        List<Node> nodesRequest = NodeMapper.mapTreeNodesToNodes(nodesTreeNode);
 
-        List<Node> nodes = pilotDao.findAllByLabelsIn(labels);  //db query
+        List<Node> nodes = pilotDao.findAllByNodesIn(nodesRequest);  //db query
 //        List<Node> nodes = pilotDao.findAllByLabel(labels.get(0));  //db query
 
         List<TreeNode> treeNodes = TreeNodeMapper.mapNodesToTreeNodes(nodes);
